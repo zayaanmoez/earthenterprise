@@ -22,6 +22,7 @@
 #include <string>
 #include <iterator>
 #include <iostream>
+#include <memory>
 
 #include "common/khTypes.h"
 #include <cstdint>
@@ -229,7 +230,8 @@ struct _VerRefDef {
 
   std::int32_t operator-(const _Self& __x) const { return ver_num - __x.ver_num; }
 
-  std::string asset_name;
+  //std::string asset_name;
+  std::shared_ptr<std::string> asset_name;
   std::int32_t ver_num;
 
   std::uint64_t GetHeapUsage() const {

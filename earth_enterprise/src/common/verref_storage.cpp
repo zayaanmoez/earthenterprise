@@ -24,7 +24,7 @@ _VerRefDef::_VerRefDef() : ver_num(0) {
 }
 
 _VerRefDef::_VerRefDef(const std::string& _asset_name, std::uint32_t _ver_num)
-    : asset_name(_asset_name),
+    : asset_name(make_shared<std::string>(_asset_name),
       ver_num(_ver_num) {
 }
 
@@ -33,7 +33,7 @@ _VerRefDef::_VerRefDef(const std::string& ref) {
   assert(pos != std::string::npos);
 
   if (pos != std::string::npos) {
-    asset_name = std::string(ref, 0, pos);
+    asset_name = make_shared<std::string>(ref, 0, pos);
     char *end;
     ver_num = strtol(
         ref.c_str() + pos + kAssetVersionNumPrefix.size(), &end, 10);
@@ -46,7 +46,7 @@ const std::string& _VerRefDef::GetRef() const {
   if (Valid()) {
     if (ref.empty()) {
       // Build assetversion reference path.
-      ref = asset_name + kAssetVersionNumPrefix + Itoa(ver_num);
+      ref = asset_name.ToString() + kAssetVersionNumPrefix + Itoa(ver_num);
     }
   } else {
     ref.clear();
